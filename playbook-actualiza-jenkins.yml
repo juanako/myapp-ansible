@@ -1,6 +1,6 @@
 ---
 - name: Actualizar Jenkins
-  hosts: jenkins-server
+  hosts: hosts
   become: true
 
   tasks:
