@@ -1,0 +1,28 @@
+---
+- name: Actualizar Jenkins
+  hosts: jenkins-server
+  become: true
+
+  tasks:
+    - name: Descargar la última versión de Jenkins
+      get_url:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+        dest: /tmp/jenkins.key
+
+    - name: Agregar la clave de Jenkins al sistema APT
+      apt_key:
+        key_file: /tmp/jenkins.key
+
+    - name: Agregar el repositorio de Jenkins al sistema APT
+      apt_repository:
+        repo: deb https://pkg.jenkins.io/debian-stable binary/
+        state: present
+
+    - name: Actualizar la lista de paquetes del sistema APT
+      apt:
+        update_cache: yes
+
+    - name: Instalar la última versión de Jenkins
+      apt:
+        name: jenkins
+        state: latest
